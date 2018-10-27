@@ -25,7 +25,7 @@ before_install:
 install:
 
     # Create test environment for package
-  - conda create -n test python=$PYTHON_VER pandas requests pyyaml
+  - conda create -n test python=$PYTHON_VER pytest pytest-cov pandas requests pyyaml
   - conda activate test
 
     # Install pip only modules
@@ -43,4 +43,5 @@ notifications:
     email: false
 
 after_success:
+  - coverage report
   - codecov
