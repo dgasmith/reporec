@@ -1,0 +1,40 @@
+psi4:
+  - type: github
+    username: psi4
+    repository: psi4
+  - type: conda
+    username: psi4
+  - type: conda
+    username: acellera
+psi4numpy:
+  - type: github
+    username: psi4
+
+opt_einsum:
+  - type: github
+    username: dgasmith
+    repository: opt_einsum
+  - type: conda
+    username: conda-forge
+gau2grid:
+  - type: github
+    username: dgasmith
+  - type: conda
+    username: psi4
+
+qcfractal:
+  - type: github
+    username: molssi
+qcschema:
+  - type: github
+    username: molssi
+qcengine:
+  - type: github
+    username: molssi
+qcportal:
+  - type: github
+    username: molssi
+qcelemental:
+  - type: github
+    username: molssi
+
