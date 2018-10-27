@@ -5,6 +5,7 @@ Access Conda's REST API.
 import datetime
 import collections
 import requests
+import pandas as pd
 
 
 def get_downloads(username, package):
@@ -21,3 +22,15 @@ def get_downloads(username, package):
     dt = datetime.datetime.utcnow().strftime("%Y-%M-%dT%H:%M:%SZ")
     ret = [{"timestamp": dt, "version": k, "downloads": v} for k, v in ret.items()]
     return ret
+
+
+def build_table(username, package, old_data=None):
+    """Builds a full table of data from Conda.
+    """
+
+    df = pd.DataFrame(get_downloads(username, package))
+
+    if old_data is not None:
+        df = pd.concat([old_data, df])
+
+    return df
