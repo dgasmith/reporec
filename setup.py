@@ -1,6 +1,5 @@
 """
 reporec
-Records GitHub statistics for information and funding agencies.
 """
 from setuptools import setup
 import versioneer
@@ -23,13 +22,15 @@ setup(
     # Optional include package data to ship with your package
     # Comment out this line to prevent the files from being packaged with your software
     # Extend/modify the list to include/exclude other items as need be
-    package_data={'reporec': ["data/*.dat"]
-                  },
+    package_data={'reporec': ["data/*.dat"]},
+    entry_points={"console_scripts": [
+        "reporec=reporec.cli:main",
+    ]},
 
     # Additional entries you may want simply uncomment the lines you want and fill in the data
     # author_email='me@place.org',      # Author email
     # url='http://www.my_package.com',  # Website
-    install_requires=["requests", "falcon"],              # Required packages, pulls from pip if needed; do not use for Conda deployment
+    install_requires=["requests", "pandas", "pyyaml"],
     # platforms=['Linux',
     #            'Mac OS-X',
     #            'Unix',
@@ -38,5 +39,4 @@ setup(
 
     # Manual control if final package is compressible or not, set False to prevent the .egg from being made
     # zip_safe=False,
-
 )
