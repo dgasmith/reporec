@@ -1,0 +1,14 @@
+psi4:
+  - type: github
+    username: psi4
+    repository: psi4
+  - type: conda
+    username: psi4
+  - type: conda
+    username: acellera
+opt_einsum:
+  - type: github
+    username: dgasmith
+    repository: opt_einsum
+  - type: conda
+    username: conda-forge
