@@ -3,7 +3,9 @@ Access GitHub's REST API.
 """
 
 import json
+import pandas as pd
 import requests
+
 from . import config
 
 _base = "https://api.github.com/"
@@ -40,3 +42,16 @@ def get_clones(org, repo):
     """
 
     return get_api("repos", org, repo, "traffic", "clones")[0]["clones"]
+
+
+def build_table(org, repo, old_data=None):
+
+    view = pd.DataFrame(get_views(org, repo))
+    clones = pd.DataFrame(get_clones(org, repo))
+
+    df = view.merge(clones, how="outer", on="timestamp", suffixes=("_view", "_clone"))
+
+    if old_data is not None:
+        df = pd.concat([old_data, df], sort=False).drop_duplicates("timestamp")
+
+    return df

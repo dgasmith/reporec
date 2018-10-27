@@ -29,8 +29,9 @@ def build_table(username, package, old_data=None):
     """
 
     df = pd.DataFrame(get_downloads(username, package))
+    df["username"] = username
 
     if old_data is not None:
-        df = pd.concat([old_data, df])
+        df = pd.concat([old_data, df], sort=False, ignore_index=True)
 
     return df
