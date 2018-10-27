@@ -1,5 +1,5 @@
 """
-Access GitHub's Python API.
+Access GitHub's REST API.
 """
 
 import json
@@ -24,6 +24,7 @@ def get_api(*paths):
     """
     path = _base + "/".join(paths)
     r = requests.get(path, headers=_build_header())
+    r.raise_for_status()
 
     return r.json(), r.headers
 
@@ -31,11 +32,11 @@ def get_api(*paths):
 def get_views(org, repo):
     """Obtains the view data for a give repository
     """
-    return get_api("repos", org, repo, "traffic", "views")
+    return get_api("repos", org, repo, "traffic", "views")[0]["views"]
 
 
 def get_clones(org, repo):
     """Obtains the clone data for a give repository
     """
 
-    return get_api("repos", org, repo, "traffic", "clones")
+    return get_api("repos", org, repo, "traffic", "clones")[0]["clones"]

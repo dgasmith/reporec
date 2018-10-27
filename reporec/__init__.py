@@ -5,6 +5,7 @@ Records GitHub statistics for information and funding agencies.
 
 # Add imports here
 from . import github
+from . import conda
 
 # Handle versioneer
 from ._version import get_versions
