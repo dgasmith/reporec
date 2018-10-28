@@ -7,12 +7,16 @@ import requests
 
 import reporec
 
+# Check if available token
+
+@pytest.mark.xfail(reason="Requires token authentication")
 def test_github_views():
 
     ret = reporec.github.get_views("dgasmith", "opt_einsum")
     assert len(ret) > 1
     assert ret[0].keys() == {"timestamp", "count", "uniques"}
 
+@pytest.mark.xfail(reason="Requires token authentication")
 def test_github_clones():
 
     ret = reporec.github.get_clones("dgasmith", "opt_einsum")
