@@ -1,7 +1,7 @@
 reporec
 ==============================
 [//]: # (Badges)
-[![Travis Build Status](https://travis-ci.org/dgasmith/reporec.png)](https://travis-ci.org/dgasmith/reporec)
+[![Travis Build Status](https://travis-ci.com/dgasmith/reporec.png)](https://travis-ci.com/dgasmith/reporec)
 [![codecov](https://codecov.io/gh/dgasmith/reporec/branch/master/graph/badge.svg)](https://codecov.io/gh/dgasmith/reporec/branch/master)
 
 Records GitHub statistics for information and funding agencies.

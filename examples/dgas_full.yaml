@@ -38,3 +38,75 @@ qcelemental:
   - type: github
     username: molssi
 
+chemps2:
+  - type: github
+    username: SebWouters
+  - type: conda
+    username: psi4
+libefp:
+  - type: github
+    username: ilyak
+  - type: conda
+    username: psi4
+libint:
+  - type: github
+    username: evaleev
+  - type: conda
+    username: psi4
+libxc:
+  #- type: gitlab
+  #  username: libxc
+  - type: conda
+    username: psi4
+pcmsolver:
+  - type: github
+    username: pcmsolver
+  - type: conda
+    username: psi4
+gdma:
+  - type: github
+    username: psi4
+  - type: conda
+    username: psi4
+dkh:
+  - type: github
+    username: psi4
+  - type: conda
+    username: psi4
+simint:
+  #- type: github
+  #  username: simint-chem
+  #  repository: simint-generator
+  - type: conda
+    username: psi4
+dftd3:
+  - type: conda
+    username: psi4
+gcp:
+  - type: conda
+    username: psi4
+ambit:
+  - type: github
+    username: jturney
+  - type: conda
+    username: psi4
+optking:
+  - type: github
+    username: psi-rking
+  #- type: conda
+  #  username: psi4
+geometric:
+  - type: github
+    username: leeping
+  - type: conda
+    username: conda-forge
+
+qcdb:
+  - type: github
+    username: qcdb
+
+pylibefp:
+  - type: github
+    username: loriab
+  - type: conda
+    username: psi4
