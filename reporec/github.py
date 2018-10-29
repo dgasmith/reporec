@@ -60,6 +60,9 @@ def build_table(org, repo, old_data=None):
     else:
         df = view.merge(clones, how="outer", on="timestamp", suffixes=("_view", "_clone"))
 
+        df.sort_values(by="timestamp")
+        df = df.iloc[:-1] # Remove last day which might not be complete
+
         if old_data is not None:
             df = pd.concat([old_data, df], sort=False).drop_duplicates("timestamp")
 
