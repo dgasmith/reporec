@@ -44,20 +44,30 @@ def main():
     if not os.path.exists(directory):
         os.makedirs(directory)
 
+    evaluator_dict = {
+        "conda": {
+            "path_affix": "-conda.csv",
+            "function": reporec.conda.build_table
+        },
+        "github": {
+            "path_affix": "-github.csv",
+            "function": reporec.github.build_table
+        },
+    }
+
     for proj, records in config.items():
         write_path = os.path.join(directory, proj)
 
-        # Handle conda
-        conda_path = write_path + "-conda.csv"
-        conda_df = None
-        if os.path.exists(conda_path):
-            conda_df = pd.read_csv(conda_path)
+        # Build path and initial data blob for each entry
+        data = {}
+        for name, blob in evaluator_dict.items():
+            t = {}
+            t["path"] = write_path + blob["path_affix"]
+            t["data"] = None
+            if os.path.exists(t["path"]):
+                t["data"] = pd.read_csv(t["path"])
 
-        # Handle github
-        github_path = write_path + "-github.csv"
-        github_df = None
-        if os.path.exists(github_path):
-            github_df = pd.read_csv(github_path)
+            data[name] = t
 
         # Loop over records
         for num, r in enumerate(records):
@@ -69,22 +79,18 @@ def main():
             username = r["username"]
             repository = r.get("repository", proj)
 
-            if r["type"].lower() == "conda":
-                conda_df = reporec.conda.build_table(username, repository, old_data=conda_df)
-
-            elif r["type"].lower() == "github":
-                github_df = reporec.github.build_table(username, repository, old_data=github_df)
-            else:
+            ftype = r["type"].lower()
+            if ftype not in evaluator_dict:
                 raise KeyError("Did not understand type key '{}'.".format(r["type"]))
 
-        # Write it out
-        if github_df is not None:
-            github_df.sort_values(by=["timestamp"], inplace=True)
-            github_df.to_csv(github_path, index=False)
+            data[ftype]["data"] = evaluator_dict[ftype]["function"](username, repository, old_data=data[ftype]["data"])
 
-        if conda_df is not None:
-            conda_df.sort_values(by=["timestamp"], inplace=True)
-            conda_df.to_csv(conda_path, index=False)
+        for k, v in data.items():
+            if v["data"] is None:
+                continue
+
+            v["data"].sort_values(by=["timestamp"], inplace=True)
+            v["data"].to_csv(v["path"], index=False)
 
         print("Finished project '{}'".format(proj))
 
