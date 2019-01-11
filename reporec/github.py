@@ -5,6 +5,7 @@ Access GitHub's REST API.
 import json
 import pandas as pd
 import requests
+from requests.exceptions import HTTPError
 
 from . import config
 
@@ -26,7 +27,16 @@ def get_api(*paths):
     """
     path = _base + "/".join(paths)
     r = requests.get(path, headers=_build_header())
-    r.raise_for_status()
+    try:
+        r.raise_for_status()
+    except HTTPError as e:
+        if e.response.status_code == 403:
+            raise RuntimeError("A 403 Forbidden error occurred. You may need "
+                               "to get a GitHub Personal Access Token with "
+                               "full access to repo and export it as "
+                               "GITHUB_TOKEN.")
+        else:
+            raise
 
     return r.json(), r.headers
 
