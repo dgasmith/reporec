@@ -27,16 +27,13 @@ def get_api(*paths):
     """
     path = _base + "/".join(paths)
     r = requests.get(path, headers=_build_header())
-    try:
+    if r.status_code == 403:
+        raise RuntimeError("A 403 Forbidden error occurred. You may need "
+                           "to get a GitHub Personal Access Token with "
+                           "full access to repo and export it as "
+                           "GITHUB_TOKEN.")
+    elif r.status_code != 200:
         r.raise_for_status()
-    except HTTPError as e:
-        if e.response.status_code == 403:
-            raise RuntimeError("A 403 Forbidden error occurred. You may need "
-                               "to get a GitHub Personal Access Token with "
-                               "full access to repo and export it as "
-                               "GITHUB_TOKEN.")
-        else:
-            raise
 
     return r.json(), r.headers
 
