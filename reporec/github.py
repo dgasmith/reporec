@@ -5,7 +5,6 @@ Access GitHub's REST API.
 import json
 import pandas as pd
 import requests
-from requests.exceptions import HTTPError
 
 from . import config
 
