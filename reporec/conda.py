@@ -2,10 +2,11 @@
 Access Conda's REST API.
 """
 
-import datetime
 import collections
-import requests
+import datetime
+
 import pandas as pd
+import requests
 
 
 def get_downloads(username, package):

@@ -1,13 +1,13 @@
 """
 A command line interface to create reporec data.
 """
-import os
-import json
-import yaml
 import argparse
-import requests
+import json
+import os
 
 import pandas as pd
+import requests
+import yaml
 
 import reporec
 

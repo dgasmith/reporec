@@ -2,10 +2,11 @@
 Access Conda's REST API.
 """
 
-import datetime
 import collections
-import requests
+import datetime
+
 import pandas as pd
+import requests
 
 
 def get_downloads(package):
@@ -14,7 +15,6 @@ def get_downloads(package):
     uri = "https://pypistats.org/api/packages/{}/overall".format(package)
     r = requests.get(uri)
     r.raise_for_status()
-
 
     ret = []
     for x in r.json()["data"]:
