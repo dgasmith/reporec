@@ -15,3 +15,5 @@ opt_einsum:
   - type: conda
     username: conda-forge
   - type: pypi
+basis_set_exchange:
+  - type: pypi

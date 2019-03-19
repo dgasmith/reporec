@@ -16,20 +16,26 @@ def get_downloads(package):
     r = requests.get(uri)
     r.raise_for_status()
 
-    ret = []
+    mirrors = []
+    no_mirrors = []
     for x in r.json()["data"]:
         if x["category"] == "without_mirrors":
-            continue
+            no_mirrors.append((x["date"], x["downloads"]))
+        else:
+            mirrors.append((x["date"], x["downloads"]))
 
-        ret.append((x["date"], x["downloads"]))
-    return ret
+    return (mirrors, no_mirrors)
 
 
 def build_table(package, old_data=None):
     """Builds a full table of data from Conda.
     """
 
-    df = pd.DataFrame(get_downloads(package), columns=["timestamp", "downloads"])
+    mirrors, no_mirrors = get_downloads(package)
+    mirrors = pd.DataFrame(mirrors, columns=["timestamp", "downloads_with_mirrors"])
+    no_mirrors = pd.DataFrame(no_mirrors, columns=["timestamp", "downloads"])
+
+    df = no_mirrors.merge(mirrors, how="outer", on="timestamp")
 
     if old_data is not None:
         df = pd.concat([old_data, df], sort=False, ignore_index=True)
