@@ -64,6 +64,8 @@ def main():
     }
 
     for proj, records in config.items():
+        print(f"\nStarting project {proj}")
+        print("-"*40)
         write_path = os.path.join(directory, proj)
 
         # Build path and initial data blob for each entry
@@ -79,6 +81,7 @@ def main():
 
         # Loop over records
         for num, r in enumerate(records):
+            print(f"Recording type {r['type']}")
 
             ftype = r["type"].lower()
             if ftype not in evaluator_dict:

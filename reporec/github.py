@@ -53,18 +53,17 @@ def get_clones(org, repo):
 def build_table(org, repo, old_data=None):
 
     try:
-        view = pd.DataFrame(get_views(org, repo))
-        clones = pd.DataFrame(get_clones(org, repo))
+        view = pd.DataFrame(get_views(org, repo), columns=["count", "timestamp", "uniques"])
+        clones = pd.DataFrame(get_clones(org, repo), columns=["count", "timestamp", "uniques"])
     except RuntimeError as e:
         print(e)
         return old_data
-    else:
-        df = view.merge(clones, how="outer", on="timestamp", suffixes=("_view", "_clone"))
+    df = view.merge(clones, how="outer", on="timestamp", suffixes=("_view", "_clone"))
 
-        df.sort_values(by="timestamp")
-        df = df.iloc[:-1]  # Remove last day which might not be complete
+    df.sort_values(by="timestamp")
+    df = df.iloc[:-1]  # Remove last day which might not be complete
 
-        if old_data is not None:
-            df = pd.concat([old_data, df], sort=False).drop_duplicates("timestamp")
+    if old_data is not None:
+        df = pd.concat([old_data, df], sort=False).drop_duplicates("timestamp")
 
-        return df
+    return df
