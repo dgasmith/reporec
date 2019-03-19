@@ -37,6 +37,9 @@ install:
 
 script:
   - pytest -v --cov=reporec reporec/tests/
+
+    # Run twice to check update
+  - coverage run --append `which reporec` examples/test1.yaml 
   - coverage run --append `which reporec` examples/test1.yaml 
 
 notifications:

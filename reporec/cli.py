@@ -5,6 +5,7 @@ import os
 import json
 import yaml
 import argparse
+import requests
 
 import pandas as pd
 
@@ -47,11 +48,18 @@ def main():
     evaluator_dict = {
         "conda": {
             "path_affix": "-conda.csv",
-            "function": reporec.conda.build_table
+            "function": reporec.conda.build_table,
+            "required": ["type", "username", "repository"],
         },
         "github": {
             "path_affix": "-github.csv",
-            "function": reporec.github.build_table
+            "function": reporec.github.build_table,
+            "required": ["type", "username", "repository"],
+        },
+        "pypi": {
+            "path_affix": "-pypi.csv",
+            "function": reporec.pypi.build_table,
+            "required": ["type", "repository"],
         },
     }
 
@@ -72,18 +80,25 @@ def main():
         # Loop over records
         for num, r in enumerate(records):
 
-            missing = {"type", "username"} - r.keys()
-            if len(missing):
-                raise KeyError("Did not find keys '{}' for record {}:{}".format(missing, proj, num))
-
-            username = r["username"]
-            repository = r.get("repository", proj)
-
             ftype = r["type"].lower()
             if ftype not in evaluator_dict:
                 raise KeyError("Did not understand type key '{}'.".format(r["type"]))
 
-            data[ftype]["data"] = evaluator_dict[ftype]["function"](username, repository, old_data=data[ftype]["data"])
+            fdata = evaluator_dict[ftype]
+            r["repository"] = r.get("repository", proj)
+
+            missing = set(fdata["required"]) - r.keys()
+            if len(missing):
+                raise KeyError("Did not find keys '{}' for record {}:{}".format(missing, proj, num))
+
+            repository = r.get("repository", proj)
+            args = [r[key] for key in fdata["required"] if key != "type"]
+
+            try:
+                data[ftype]["data"] = fdata["function"](*args, old_data=data[ftype]["data"])
+            except requests.exceptions.HTTPError as exc:
+                print(f"Could not obtain results for {proj}-{ftype}.")
+                print(str(exc))
 
         for k, v in data.items():
             if v["data"] is None:

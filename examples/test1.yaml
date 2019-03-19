@@ -10,5 +10,8 @@ opt_einsum:
   - type: github
     username: dgasmith
     repository: opt_einsum
+  - type: github
+    username: dgasmith
   - type: conda
     username: conda-forge
+  - type: pypi

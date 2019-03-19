@@ -30,7 +30,6 @@ def build_table(package, old_data=None):
     """
 
     df = pd.DataFrame(get_downloads(package), columns=["timestamp", "downloads"])
-    df["username"] = username
 
     if old_data is not None:
         df = pd.concat([old_data, df], sort=False, ignore_index=True)
