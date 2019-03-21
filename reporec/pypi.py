@@ -39,5 +39,6 @@ def build_table(package, old_data=None):
 
     if old_data is not None:
         df = pd.concat([old_data, df], sort=False, ignore_index=True)
+        df.drop_duplicates(inplace=True)
 
     return df
